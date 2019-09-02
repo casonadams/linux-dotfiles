@@ -1,0 +1,40 @@
+config:
+  backup: true
+  create: true
+  dotpath: dotfiles
+dotfiles:
+  f_bashrc:
+    src: bashrc
+    dst: ~/.bashrc
+  f_vimrc:
+    src: vimrc
+    dst: ~/.vimrc
+  f_tmux.conf:
+    src: tmux.conf
+    dst: ~/.tmux.conf
+  f_alacritty.yml:
+    src: config/alacritty/alacritty.yml
+    dst: ~/.config/alacritty/alacritty.yml
+  f_init.vim:
+    src: config/nvim/init.vim
+    dst: ~/.config/nvim/init.vim
+  f_bash_aliases:
+    src: bash_aliases
+    dst: ~/.bash_aliases
+  f_bash_paths:
+    src: bash_paths
+    dst: ~/.bash_paths
+  f_editorconfig:
+    src: editorconfig
+    dst: ~/.editorconfig
+profiles:
+  system76:
+    dotfiles:
+    - f_bashrc
+    - f_vimrc
+    - f_tmux.conf
+    - f_alacritty.yml
+    - f_init.vim
+    - f_bash_aliases
+    - f_bash_paths
+    - f_editorconfig

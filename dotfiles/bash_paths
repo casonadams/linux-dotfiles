@@ -1,0 +1,11 @@
+# Camera-build repo
+PATH=~/bin:$PATH
+
+# rust cargo
+PATH="$HOME/.cargo/bin:$PATH"
+
+# go
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+# export GOROOT="/usr/local/go"
+PATH=$PATH:$GOPATH/bin
