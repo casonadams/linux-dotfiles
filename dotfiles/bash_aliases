@@ -1,5 +1,4 @@
 alias dotdrop='~/Projects/linux-dotfiles/dotdrop.sh --cfg=~/Projects/linux-dotfiles/config.yaml'
-alias vim='nvim'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias ll='ls -hal'
