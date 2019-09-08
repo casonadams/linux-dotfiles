@@ -5,7 +5,9 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-PATH="/home/cadams/.cargo/bin:$PATH"
+if [ -f "$HOME/.bash_paths" ]; then
+    . $HOME/.bash_paths
+fi
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
@@ -20,6 +22,6 @@ export PATH
 # User specific aliases and functions
 
 prompt() {
-    PS1="$(powerline-rs --modules time,git --shell bash $?)\n\w$ "
+    PS1="\[\033]0;\W\007\]$(powerline-rs --modules time,git --shell bash $?)\n\w$ "
 }
 PROMPT_COMMAND=prompt
