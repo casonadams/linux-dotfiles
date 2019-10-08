@@ -27,6 +27,9 @@ dotfiles:
   f_editorconfig:
     src: editorconfig
     dst: ~/.editorconfig
+  f_config:
+    src: config/termite/config
+    dst: ~/.config/termite/config
 profiles:
   system76:
     dotfiles:
@@ -38,3 +41,4 @@ profiles:
     - f_bash_aliases
     - f_bash_paths
     - f_editorconfig
+    - f_config
