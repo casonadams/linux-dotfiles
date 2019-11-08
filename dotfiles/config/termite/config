@@ -6,7 +6,9 @@
 #cell_width_scale = 1.0
 #clickable_url = true
 #dynamic_title = true
-font = Monospace 12
+#font = Monospace 12
+# https://github.com/ryanoasis/powerline-extra-symbols/blob/master/patched-fonts/DroidSansMonoForPowerlinePlusNerdFileTypesMono.otf
+font = Droid Sans Mono for Powerline Plus Nerd File Types Mono 12
 #fullscreen = true
 #icon_name = terminal
 mouse_autohide = true
