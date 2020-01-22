@@ -32,4 +32,5 @@ prompt() {
 }
 PROMPT_COMMAND=prompt
 
-alias vi='vim'
+alias vi='vimx'
+alias vi='vimx'
