@@ -21,7 +21,15 @@ export PATH
 
 # User specific aliases and functions
 
+export WINIT_UNIX_BACKEND=x11
+
+SET='\033[0m'
+NAME='\[\033]0;\w\007\]'
+DIM='\e[2m'
+
 prompt() {
-    PS1="\[\033]0;\W\007\]$(powerline-rs --modules time,git --shell bash $?)\n\w$ "
+    PS1="$NAME$DIM$(date +%H:%M:%S.%3N)$SET\n[\w]$ "
 }
 PROMPT_COMMAND=prompt
+
+alias vi='vim'
