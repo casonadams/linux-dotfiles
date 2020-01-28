@@ -8,6 +8,11 @@ function! myspacevim#before() abort
 
   set noswapfile
 
+  " update file for ctags
+  " vi ~/.rusty-tags/config.toml 
+  " # the file name used for vi tags
+  " vi_tags = "/home/cason.adams/.ctags"
+
   autocmd BufRead *.rs :setlocal tags=/home/cason.adams/.ctags;/
   autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
 
