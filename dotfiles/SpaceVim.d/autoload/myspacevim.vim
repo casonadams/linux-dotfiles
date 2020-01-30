@@ -8,15 +8,18 @@ function! myspacevim#before() abort
 
   set noswapfile
 
-" Need racer installed!:w
-" https://rls.booyaa.wtf/install/
+  " update file for ctags
+  " vi ~/.rusty-tags/config.toml
+  " # the file name used for vi tags
+  " vi_tags = "/home/cason.adams/.ctags"
 
   autocmd BufRead *.rs :setlocal tags=/home/cason.adams/.ctags;/
   autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
 
   " rustfmt on write using autoformat
-  autocmd BufWrite * :Neoformat
-  nnoremap <leader>c :!cargo clippy
+  autocmd BufWrite * :Autoformat
+  " autocmd BufWrite * :Neoformat
+  " nnoremap <leader>c :!cargo clippy
 endfunction
 
 function! myspacevim#after() abort
