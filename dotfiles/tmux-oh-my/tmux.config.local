@@ -198,11 +198,11 @@ git_status="#(cd #{pane_current_path}; git status --ignore-submodules -sb | head
 
 branch_icon="#(if [ "$git_status" ]; then echo ⎇ ; else echo ''; fi)"
 
-tmux_conf_theme_status_left=' #(if [[ "#{username}#{root}" == *"root"* ]]; then echo "#[fg=$b_red]root"; else echo "#[fg=$n_gray]#{username}#{root}"; fi) |#{hostname} '
+tmux_conf_theme_status_left=' #(if [[ "#{username}#{root}" == *"root"* ]]; then echo "#[fg=$b_red]root"; else echo "#[fg=$fg]#{username}#{root}"; fi) |#{hostname} '
 tmux_conf_theme_status_right=" $branch_icon $git_status| %T "
 
 # status left style
-tmux_conf_theme_status_left_fg="$b_red,$n_gray"
+tmux_conf_theme_status_left_fg="$fg,$n_gray"
 tmux_conf_theme_status_left_bg="$bg,$bg"
 tmux_conf_theme_status_left_attr='none,none'
 
