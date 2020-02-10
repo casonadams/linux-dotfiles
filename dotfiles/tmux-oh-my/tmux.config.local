@@ -119,13 +119,24 @@ tmux_conf_theme_status_attr='none'
 
 # terminal title
 # tmux_conf_theme_terminal_title='#h ❐ #S ● #I #W'
-#
+
 home="#(if [[ $HOME == #{pane_current_path} ]]; then echo \"~\" ; else echo #{b:pane_current_path}; fi)"
-
 path="#($(tmux showw -v @show-full-window-path) == true && echo \"$(echo #{pane_current_path} | awk '{print \"~\"$1}' | cut -d/ -f-1,4-)\" || echo \"$home\")"
-
 git_status="#(cd #{pane_current_path}; git status --ignore-submodules -sb | head -n1 | tr -d \"# \" | cut -f1 -d\".\")"
+git_remote="#(cd #{pane_current_path}; if [[ `git config --get remote.origin.url` != '' ]]; then printf `git config --get remote.origin.url`; else echo ''; fi)"
 
+tmux_git_icon="#(cd #{pane_current_path}; \
+if [[ $git_remote == *'gitlab'* ]]; then \
+    printf ' '; \
+elif [[ $git_remote == *'github'* ]]; then \
+    printf ' '; \
+elif [[ $git_remote == *'bitbucket'* ]]; then \
+    printf ' '; \
+elif [[ $git_remote == *'source.vivint.com'* ]]; then \
+    printf ' '; \
+else \
+    printf ''; \
+fi)"
 
 # window status style
 tmux_conf_theme_window_status_fg=colour246
@@ -155,11 +166,20 @@ tmux_conf_theme_left_separator_sub=''
 tmux_conf_theme_right_separator_main=''
 tmux_conf_theme_right_separator_sub=''
 
-# status left/right content:
-# git_status=" #(gitmux -cfg ~/.gitmux.conf #{pane_current_path}) "
 
-tmux_conf_theme_status_left=" #S#{?window_bell_flag,  ,}#{?window_zoomed_flag, ,}#{synchronized}#{prefix} "
-tmux_conf_theme_status_right="#(if [[ $(expr \"$git_status\" : '.*') -gt 0 ]]; then echo ' $git_status ' ; fi)|#(if [[ \"#{username}#{root}\" == *\"root\"* ]]; then printf \"#[fg=$b_red] root\"; else printf \" #{username}#{root}\"; fi) | #{hostname} "
+# status left/right content:
+tmux_conf_theme_status_left=" #S#{?window_bell_flag, ,}#{?window_zoomed_flag, ,}#{synchronized}#{prefix} "
+tmux_conf_theme_status_right="#(\
+if [[ $(expr \"$git_status\" : '.*') -gt 0 ]]; then \
+   echo ' $tmux_git_icon$git_status ' ; \
+fi)\
+|#(\
+if [[ '#{username}#{root}' == *'root'* ]]; then \
+    printf '#[fg=$b_red] root'; \
+else \
+    printf ' #{username}#{root}'; \
+fi) \
+| #{hostname} "
 
 # status left style
 tmux_conf_theme_status_left_fg="colour235"
@@ -168,7 +188,7 @@ tmux_conf_theme_status_left_attr='none'
 
 # status right style
 tmux_conf_theme_status_right_fg="colour246,colour246,colour235"
-tmux_conf_theme_status_right_bg="colour237,colour240,colour246"
+tmux_conf_theme_status_right_bg="colour236,colour239,colour246"
 tmux_conf_theme_status_right_attr='none,none,none,none'
 
 # pairing indicator
@@ -178,7 +198,7 @@ tmux_conf_theme_pairing_bg='none'
 tmux_conf_theme_pairing_attr='none'
 
 # prefix indicator
-tmux_conf_theme_prefix=" "
+tmux_conf_theme_prefix=" "
 tmux_conf_theme_prefix_fg='$n_red'
 tmux_conf_theme_prefix_bg='$fg'
 tmux_conf_theme_prefix_attr='none'
