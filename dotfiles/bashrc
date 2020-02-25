@@ -16,21 +16,82 @@ then
 fi
 export PATH
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
 
-# User specific aliases and functions
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
 
-export WINIT_UNIX_BACKEND=x11
-
-SET='\033[0m'
-NAME='\[\033]0;\w\007\]'
-DIM='\e[2m'
-
+git_stuff() {
+	git_branch=$(git status --ignore-submodules -sb 2> /dev/null | head -n1 | tr -d '# ' | cut -f1 -d'.')
+	if [[ $git_branch != "" ]];then
+		git_remote=`git config --get remote.origin.url`
+		git_icon=`if [[ $git_remote == *'gitlab'* ]]; then \
+			echo -e "\e[35;5;214m \033[0m"; \
+		elif [[ $git_remote == *'github'* ]]; then \
+			echo -e "\e[35;5;241m\033[0m "; \
+		elif [[ $git_remote == *'bitbucket'* ]]; then \
+			echo -e "\e[35;5;26m \033[0m"; \
+		elif [[ $git_remote == *'source.vivint.com'* ]]; then \
+			echo -e "\e[35;5;26m \033[0m"; \
+		else \
+			echo ''; \
+		fi`
+		echo -e "$git_icon$git_branch"
+	else
+		echo -e ""
+	fi
+}
 prompt() {
-    PS1="$NAME$DIM$(date +%H:%M:%S.%3N)$SET\n[\w]$ "
+	PS1="\e[2m$(date +%H:%M:%S.%3N)\033[0m $(git_stuff)\n\w$ "
 }
 PROMPT_COMMAND=prompt
 
-alias vi='vimx'
-alias vi='vimx'
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias vi='nvim'
+alias vim='nvim'
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+RUST_SRC_PATH=$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+export PATH="/snap/bin:$PATH"
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
