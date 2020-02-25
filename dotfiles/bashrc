@@ -34,22 +34,24 @@ fi
 
 git_stuff() {
 	git_branch=$(git status --ignore-submodules -sb 2> /dev/null | head -n1 | tr -d '# ' | cut -f1 -d'.')
-	if [[ $git_branch != "" ]];then
+	if [[ $git_branch == "" ]];then
+		echo -e ""
+	elif [[ $git_branch == *"Nocommit"* ]];then
+		echo -e "No commits"
+	else
 		git_remote=`git config --get remote.origin.url`
 		git_icon=`if [[ $git_remote == *'gitlab'* ]]; then \
-			echo -e "\e[35;5;214m \033[0m"; \
+			echo -e "\e[38;5;214m \033[0m"; \
 		elif [[ $git_remote == *'github'* ]]; then \
-			echo -e "\e[35;5;241m\033[0m "; \
+			echo -e "\033[0m "; \
 		elif [[ $git_remote == *'bitbucket'* ]]; then \
-			echo -e "\e[35;5;26m \033[0m"; \
+			echo -e "\e[38;5;26m \033[0m"; \
 		elif [[ $git_remote == *'source.vivint.com'* ]]; then \
-			echo -e "\e[35;5;26m \033[0m"; \
+			echo -e "\e[38;5;26m \033[0m"; \
 		else \
 			echo ''; \
 		fi`
 		echo -e "$git_icon$git_branch"
-	else
-		echo -e ""
 	fi
 }
 prompt() {
