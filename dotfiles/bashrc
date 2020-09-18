@@ -2,98 +2,39 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
-
-if [ -f "$HOME/.bash_paths" ]; then
-    . $HOME/.bash_paths
+  . /etc/bashrc
 fi
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+  PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-git_stuff() {
-	git_branch=$(git status --ignore-submodules -sb 2> /dev/null | head -n1 | tr -d '# ' | cut -f1 -d'.')
-	if [[ $git_branch == "" ]];then
-		echo -e ""
-	elif [[ $git_branch == *"Nocommit"* ]];then
-		echo -e "No commits"
-	else
-		git_remote=`git config --get remote.origin.url`
-		git_icon=`if [[ $git_remote == *'gitlab'* ]]; then \
-			echo -e "\e[38;5;214m \033[0m"; \
-		elif [[ $git_remote == *'github'* ]]; then \
-			echo -e "\033[0m "; \
-		elif [[ $git_remote == *'bitbucket'* ]]; then \
-			echo -e "\e[38;5;26m \033[0m"; \
-		elif [[ $git_remote == *'source.vivint.com'* ]]; then \
-			echo -e "\e[38;5;26m \033[0m"; \
-		else \
-			echo ''; \
-		fi`
-		echo -e "$git_icon$git_branch"
-	fi
-}
-prompt() {
-	PS1="\e[2m$(date +%H:%M:%S.%3N)\033[0m $(git_stuff)\n\w$ "
-}
-PROMPT_COMMAND=prompt
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+# aliases
 alias vi='nvim'
 alias vim='nvim'
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+source $HOME/.key-bindings.bash
 
-RUST_SRC_PATH=$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+PATH="~/.cargo/bin:$PATH"
+export EDITOR=nvim
+export HISTSIZE=100000
+export MAKEFLAGS="-j8"
+export FZF_DEFAULT_COMMAND="fd"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type file"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+export FZF_DEFAULT_OPTS="
+--layout=reverse
+--info=inline
+--height=50%
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--bind '?:toggle-preview'
+"
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-export PATH="/snap/bin:$PATH"
-export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+prompt() {
+  PS1="\e[2m$(date +%H:%M:%S.%3N) \w#\e[0m "
+}
+PROMPT_COMMAND=prompt

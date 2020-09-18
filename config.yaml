@@ -3,42 +3,30 @@ config:
   create: true
   dotpath: dotfiles
 dotfiles:
-  f_bashrc:
-    src: bashrc
-    dst: ~/.bashrc
-  f_vimrc:
-    src: vimrc
-    dst: ~/.vimrc
-  f_tmux.conf:
-    src: tmux.conf
-    dst: ~/.tmux.conf
-  f_alacritty.yml:
-    src: config/alacritty/alacritty.yml
-    dst: ~/.config/alacritty/alacritty.yml
-  f_init.vim:
-    src: config/nvim/init.vim
-    dst: ~/.config/nvim/init.vim
-  f_bash_aliases:
-    src: bash_aliases
-    dst: ~/.bash_aliases
-  f_bash_paths:
-    src: bash_paths
-    dst: ~/.bash_paths
   f_editorconfig:
     src: editorconfig
     dst: ~/.editorconfig
-  f_config:
-    src: config/termite/config
-    dst: ~/.config/termite/config
+  f_init.vim:
+    src: config/nvim/init.vim
+    dst: ~/.config/nvim/init.vim
+  f_alacritty.yml:
+    src: config/alacritty/alacritty.yml
+    dst: ~/.config/alacritty/alacritty.yml
+  f_tmux.conf:
+    src: tmux.conf
+    dst: ~/.tmux.conf
+  f_bashrc:
+    src: bashrc
+    dst: ~/.bashrc
+  f_gitmux.conf:
+    src: gitmux.conf
+    dst: ~/.gitmux.conf
 profiles:
-  system76:
+  s1:
     dotfiles:
-    - f_bashrc
-    - f_vimrc
-    - f_tmux.conf
-    - f_alacritty.yml
-    - f_init.vim
-    - f_bash_aliases
-    - f_bash_paths
     - f_editorconfig
-    - f_config
+    - f_init.vim
+    - f_alacritty.yml
+    - f_tmux.conf
+    - f_bashrc
+    - f_gitmux.conf

@@ -18,5 +18,5 @@ dotdrop update
 ## Adding files
 
 ```bash
-dotdrop add <file_location>
+dotdrop import <file_location>
 ```
