@@ -26,7 +26,7 @@ set nocompatible
 set noswapfile
 set nowritebackup
 set number
-set signcolumn=number
+set signcolumn=yes
 set title
 set wrap
 setlocal wrap
