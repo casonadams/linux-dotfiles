@@ -21,6 +21,9 @@ dotfiles:
   f_gitmux.conf:
     src: gitmux.conf
     dst: ~/.gitmux.conf
+  f_coc-settings.json:
+    src: config/nvim/coc-settings.json
+    dst: ~/.config/nvim/coc-settings.json
 profiles:
   s1:
     dotfiles:
@@ -30,3 +33,4 @@ profiles:
     - f_tmux.conf
     - f_bashrc
     - f_gitmux.conf
+    - f_coc-settings.json
