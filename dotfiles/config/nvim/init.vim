@@ -9,7 +9,7 @@ call plug#begin()
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'mengelbrecht/lightline-bufferline'
-  Plug 'morhetz/gruvbox'
+  Plug 'lifepillar/vim-gruvbox8'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'tpope/vim-commentary'
 call plug#end()
@@ -20,6 +20,7 @@ call plug#end()
 " Settings START
 let mapleader = "\<Space>"
 filetype plugin on
+set completeopt=menuone
 set mouse=a
 set nobackup
 set nocompatible
@@ -50,36 +51,20 @@ autocmd BufReadPost *
 " Theme START
 syntax on
 set termguicolors
-colorscheme gruvbox
+colorscheme gruvbox8
 set background=dark
 set cursorline
 set hidden
 set cmdheight=1
+set laststatus=2
+
+let g:gruvbox_transp_bg=0
+let g:gruvbox_italicize=0
+let g:gruvbox_italicize_strings=0
+let g:gruvbox_bold=0
+
 set list
 set listchars=tab:»·,trail:·
-
-nmap <Leader>t :call Terminal()<CR>
-function! Terminal()
-  :set splitbelow
-  :set splitright
-  :10split
-  :set laststatus=0
-  :set scl=no
-  :set nonu
-  :term
-endfunction
-autocmd TermOpen * startinsert
-" tnoremap <Esc> <C-\><C-n><CR>
-
-tnoremap <Esc> <C-\><C-n> <bar> :call ExitTerminal()<CR>
-function! ExitTerminal()
-  :set nosplitbelow
-  :set nosplitright
-  :set laststatus=2
-  :set scl=yes
-  :set number
-  :q!
-endfunction
 
 " let buffers be clickable
 let g:lightline#bufferline#clickable=1
@@ -87,38 +72,38 @@ let g:lightline#bufferline#shorten_path=1
 let g:lightline#bufferline#min_buffer_count=1
 
 let g:lightline = {
-  \ 'colorscheme': 'jellybeans',
-  \ 'active': {
-  \   'left': [ [], [], [ 'relativepath' ] ],
-  \   'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-  \ },
-  \ 'inactive': {
-  \   'left': [ [], [], [ 'relativepath' ] ],
-  \   'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-  \ },
-  \ 'subseparator': {
-  \   'left': '', 'right': ''
-  \ },
-  \ 'tabline': {
-  \   'left': [ ['buffers'] ],
-  \   'right': [ [] ]
-  \ },
-  \ 'tabline_separator': {
-  \   'left': "", 'right': ""
-  \ },
-  \ 'tabline_subseparator': {
-  \   'left': "", 'right': ""
-  \ },
-  \ 'component_expand': {
-  \   'buffers': 'lightline#bufferline#buffers'
-  \ },
-  \ 'component_raw': {
-  \   'buffers': 1
-  \ },
-  \ 'component_type': {
-  \   'buffers': 'tabsel'
-  \ }
-  \ }
+\  'colorscheme': 'jellybeans',
+\  'active': {
+\    'left': [ [], [], [ 'relativepath' ] ],
+\    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
+\  },
+\  'inactive': {
+\    'left': [ [], [], [ 'relativepath' ] ],
+\    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
+\  },
+\  'subseparator': {
+\    'left': '', 'right': ''
+\  },
+\  'tabline': {
+\    'left': [ ['buffers'] ],
+\    'right': [ [] ]
+\  },
+\  'tabline_separator': {
+\    'left': "", 'right': ""
+\  },
+\  'tabline_subseparator': {
+\    'left': "", 'right': ""
+\  },
+\  'component_expand': {
+\    'buffers': 'lightline#bufferline#buffers'
+\  },
+\  'component_raw': {
+\    'buffers': 1
+\  },
+\  'component_type': {
+\    'buffers': 'tabsel'
+\  }
+\}
 
 " Theme END
 "------------------------------------------------
@@ -222,7 +207,7 @@ augroup mygroup
 augroup end
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ga  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 

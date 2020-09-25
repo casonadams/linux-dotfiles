@@ -1,0 +1,20 @@
+{
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt"
+  },
+  "diagnostic-languageserver.formatters": {
+    "shfmt": {
+      "command": "shfmt",
+      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+    }
+  },
+  "suggest.noselect": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.enabled": true,
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "rust-analyzer.procMacro.enable": true
+}
