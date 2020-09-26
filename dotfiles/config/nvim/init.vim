@@ -2,17 +2,15 @@
 " Plugins START
 call plug#begin()
   Plug 'airblade/vim-gitgutter'
+  Plug 'ap/vim-buftabline'
   Plug 'cespare/vim-toml'
   Plug 'editorconfig/editorconfig-vim'
-  " Plug 'itchyny/lightline.vim'
-  Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-  " Plug 'mengelbrecht/lightline-bufferline'
+  Plug 'junegunn/vim-easy-align'
   Plug 'lifepillar/vim-gruvbox8'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'tpope/vim-commentary'
-  Plug 'ap/vim-buftabline'
 call plug#end()
 " Plugins END
 "------------------------------------------------
@@ -51,6 +49,13 @@ autocmd BufReadPost *
 "------------------------------------------------
 " Theme START
 syntax on
+set cursorline
+set hidden
+set cmdheight=1
+set laststatus=2
+set showtabline=2
+set list
+set listchars=tab:\|·,trail:·
 set termguicolors
 set background=dark
 let g:gruvbox_transp_bg=0
@@ -59,60 +64,24 @@ let g:gruvbox_italicize_strings=0
 let g:gruvbox_bold=0
 colorscheme gruvbox8
 
-set cursorline
-set hidden
-set cmdheight=1
-set laststatus=2
-set showtabline=2
+hi StatusLine guibg=#928374 guifg=#3c3836
+hi SignColumn guibg=#282828
 
-set list
-set listchars=tab:\|·,trail:·
+hi CocErrorSign guibg=#282828 guifg=#fb4934
+hi CocWarningSign guibg=#282828 guifg=#fabd2f
+hi CocInfoSign guifg=#83a598
+hi CocHintSign guifg=#504945
+hi CocErrorFloat guifg=#fb4934
+hi CocWarningFloat guifg=#fabd2f
+hi CocInfoFloat guifg=#83a598
+hi CocHintFloat guifg=#d3869b
+" hi CocDiagnosticsError guibg=#282828 guifg=#282828
+" hi CocDiagnosticsWarning guibg=#282828 guifg=#282828
+" hi CocDiagnosticsInfo guibg=#282828 guifg=#282828
+" hi CocDiagnosticsHint guibg=#282828 guifg=#282828
 
-function MyTabLabel(n)
-  let buflist = tabpagebuflist(a:n)
-  let winnr = tabpagewinnr(a:n)
-  return bufname(buflist[winnr - 1])
-endfunction
-
-" let buffers be clickable
-" let g:lightline#bufferline#clickable=1
-" let g:lightline#bufferline#shorten_path=1
-" let g:lightline#bufferline#min_buffer_count=1
-
-" let g:lightline = {
-" \  'colorscheme': 'jellybeans',
-" \  'active': {
-" \    'left': [ [], [], [ 'relativepath' ] ],
-" \    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-" \  },
-" \  'inactive': {
-" \    'left': [ [], [], [ 'relativepath' ] ],
-" \    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-" \  },
-" \  'subseparator': {
-" \    'left': '', 'right': ''
-" \  },
-" \  'tabline': {
-" \    'left': [ ['buffers'] ],
-" \    'right': [ [] ]
-" \  },
-" \  'tabline_separator': {
-" \    'left': "", 'right': ""
-" \  },
-" \  'tabline_subseparator': {
-" \    'left': "", 'right': ""
-" \  },
-" \  'component_expand': {
-" \    'buffers': 'lightline#bufferline#buffers'
-" \  },
-" \  'component_raw': {
-" \    'buffers': 1
-" \  },
-" \  'component_type': {
-" \    'buffers': 'tabsel'
-" \  }
-" \}
-
+hi CocSelectedText guibg=#3c3836 guifg=#282828
+hi CocCodeLens guifg=#504945
 " Theme END
 "------------------------------------------------
 
