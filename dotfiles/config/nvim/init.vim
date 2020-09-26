@@ -4,14 +4,15 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
   Plug 'cespare/vim-toml'
   Plug 'editorconfig/editorconfig-vim'
-  Plug 'itchyny/lightline.vim'
+  " Plug 'itchyny/lightline.vim'
   Plug 'junegunn/vim-easy-align'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-  Plug 'mengelbrecht/lightline-bufferline'
+  " Plug 'mengelbrecht/lightline-bufferline'
   Plug 'lifepillar/vim-gruvbox8'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'tpope/vim-commentary'
+  Plug 'ap/vim-buftabline'
 call plug#end()
 " Plugins END
 "------------------------------------------------
@@ -51,59 +52,66 @@ autocmd BufReadPost *
 " Theme START
 syntax on
 set termguicolors
-colorscheme gruvbox8
 set background=dark
-set cursorline
-set hidden
-set cmdheight=1
-set laststatus=2
-
 let g:gruvbox_transp_bg=0
 let g:gruvbox_italicize=0
 let g:gruvbox_italicize_strings=0
 let g:gruvbox_bold=0
+colorscheme gruvbox8
+
+set cursorline
+set hidden
+set cmdheight=1
+set laststatus=2
+set showtabline=2
 
 set list
-set listchars=tab:»·,trail:·
+set listchars=tab:\|·,trail:·
+
+function MyTabLabel(n)
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  return bufname(buflist[winnr - 1])
+endfunction
 
 " let buffers be clickable
-let g:lightline#bufferline#clickable=1
-let g:lightline#bufferline#shorten_path=1
-let g:lightline#bufferline#min_buffer_count=1
+" let g:lightline#bufferline#clickable=1
+" let g:lightline#bufferline#shorten_path=1
+" let g:lightline#bufferline#min_buffer_count=1
 
-let g:lightline = {
-\  'colorscheme': 'jellybeans',
-\  'active': {
-\    'left': [ [], [], [ 'relativepath' ] ],
-\    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-\  },
-\  'inactive': {
-\    'left': [ [], [], [ 'relativepath' ] ],
-\    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
-\  },
-\  'subseparator': {
-\    'left': '', 'right': ''
-\  },
-\  'tabline': {
-\    'left': [ ['buffers'] ],
-\    'right': [ [] ]
-\  },
-\  'tabline_separator': {
-\    'left': "", 'right': ""
-\  },
-\  'tabline_subseparator': {
-\    'left': "", 'right': ""
-\  },
-\  'component_expand': {
-\    'buffers': 'lightline#bufferline#buffers'
-\  },
-\  'component_raw': {
-\    'buffers': 1
-\  },
-\  'component_type': {
-\    'buffers': 'tabsel'
-\  }
-\}
+" let g:lightline = {
+" \  'colorscheme': 'jellybeans',
+" \  'active': {
+" \    'left': [ [], [], [ 'relativepath' ] ],
+" \    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
+" \  },
+" \  'inactive': {
+" \    'left': [ [], [], [ 'relativepath' ] ],
+" \    'right': [ [], [], [ 'lineinfo', 'percent' ] ]
+" \  },
+" \  'subseparator': {
+" \    'left': '', 'right': ''
+" \  },
+" \  'tabline': {
+" \    'left': [ ['buffers'] ],
+" \    'right': [ [] ]
+" \  },
+" \  'tabline_separator': {
+" \    'left': "", 'right': ""
+" \  },
+" \  'tabline_subseparator': {
+" \    'left': "", 'right': ""
+" \  },
+" \  'component_expand': {
+" \    'buffers': 'lightline#bufferline#buffers'
+" \  },
+" \  'component_raw': {
+" \    'buffers': 1
+" \  },
+" \  'component_type': {
+" \    'buffers': 'tabsel'
+" \  }
+" \}
 
 " Theme END
 "------------------------------------------------
@@ -140,9 +148,9 @@ set shortmess+=c
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+\ pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
